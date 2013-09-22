@@ -33,4 +33,4 @@ RUN echo "source /etc/profile.d/torquebox.sh" >> /etc/profile
 
 EXPOSE 6666 8080 8443 5445 8675
 
-ENTRYPOINT ['/bin/su', 'torquebox -c', "'/opt/torquebox/current/jruby/bin/torquebox run --clustered'"]
+ENTRYPOINT ['/opt/torquebox/current/jruby/bin/torquebox']

@@ -13,7 +13,7 @@ RUN touch /etc/profile.d/torquebox.sh
 RUN echo "export TORQUEBOX_HOME=/opt/torquebox/current" >> /etc/profile.d/torquebox.sh
 RUN echo "export JBOSS_HOME=\$TORQUEBOX_HOME/jboss" >> /etc/profile.d/torquebox.sh
 RUN echo "export JRUBY_HOME=\$TORQUEBOX_HOME/jruby" >> /etc/profile.d/torquebox.sh
-RUN echo "PATH=/opt/torquebox/current/jboss/bin:/opt/torquebox/current/jruby/bin:\$PATH" >> /etc/profile.d/torquebox.sh
+RUN echo "PATH=\$JBOSS_HOME/bin:\$JRUBY_HOME/bin:\$PATH" >> /etc/profile.d/torquebox.sh
 
 ENV TORQUEBOX_HOME /opt/torquebox/current
 ENV JBOSS_HOME /opt/torquebox/current/jboss
@@ -24,12 +24,10 @@ RUN cp /opt/torquebox/current/jboss/bin/init.d/jboss-as-standalone.sh /etc/init.
 RUN mkdir /etc/jboss-as && touch /etc/jboss-as/jboss-as.conf
 RUN echo "JBOSS_USER=torquebox" >> /etc/jboss-as/jboss-as.conf
 RUN echo "JBOSS_HOME=/opt/torquebox/current/jboss" >> /etc/jboss-as/jboss-as.conf
-RUN echo "JBOSS_PIDFILE=/var/run/torquebox/torquebox.pid"
-RUN echo "JBOSS_CONSOLE_LOG=/var/log/torquebox/console.log"
-RUN echo "JBOSS_CONFIG=standalone-ha.xml"
+RUN echo "JBOSS_PIDFILE=/var/run/torquebox/torquebox.pid" >> /etc/jboss-as/jboss-as.conf
+RUN echo "JBOSS_CONSOLE_LOG=/var/log/torquebox/console.log" >> /etc/jboss-as/jboss-as.conf
+RUN echo "JBOSS_CONFIG=standalone-ha.xml" >> /etc/jboss-as/jboss-as.conf
 RUN chkconfig --add jboss-as-standalone
-RUN echo 'HOSTNAME=appserver' >> /etc/sysconfig/network
-RUN echo "source /etc/profile.d/torquebox.sh" >> /etc/profile
 
 EXPOSE 6666 8080 8443 5445 8675
 
